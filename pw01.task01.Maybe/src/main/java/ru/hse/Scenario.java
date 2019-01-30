@@ -38,9 +38,13 @@ public class Scenario {
                     intList.add(Maybe.nothing());
                 }
             }
+            List<Maybe<Integer>> mappedList = new ArrayList<>();
             for (var x : intList) {
+                mappedList.add(x.map((y) -> y * y));
+            }
+            for (var x : mappedList) {
                 if (x.isPresent()) {
-                    writer.write(x.map((y) -> y * y).get().toString() + "\n");
+                    writer.write(x.get().toString() + "\n");
                 } else {
                     writer.write("nothing\n");
                 }
