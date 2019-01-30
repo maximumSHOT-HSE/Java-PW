@@ -1,33 +1,30 @@
 package ru.hse;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.NoSuchElementException;
+import java.util.function.Function;
 
-public class Maybe {
+public class Maybe<T> {
 
-    /*
-     * Args: file name
-     * */
-    public static void main(String[] args) throws FileNotFoundException {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Exactly 2 arguments should be provided");
-        }
-        String inputFileName = args[0];
-        String outputFileName = args[1];
-        Scanner scanner = new Scanner(
-            new BufferedInputStream(
-                new FileInputStream(
-                    new File(inputFileName)
-                )
-            )
-        );
+    private T link;
 
-        for (; scanner.hasNext();) {
-
-        }
+    public static <T> Maybe<T> just(T t) {
+        var result = new Maybe<T>();
+        result.link = t;
+        return result;
     }
 
+    public static <T> Maybe<T> nothing() {
+        return new Maybe<T>();
+    }
+
+    public T get() {
+        if (link == null) {
+            throw new NoSuchElementException("get on nothing is forbidden");
+        }
+        return link;
+    }
+
+    public <U> Maybe<U> map(Function<?, ?> mapper) {
+        return null;
+    }
 }
