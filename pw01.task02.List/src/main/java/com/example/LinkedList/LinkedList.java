@@ -6,7 +6,6 @@ import java.util.ListIterator;
 
 public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> {
     private Node head;
-    private Node tail;
     private int size;
 
     @Override
@@ -67,6 +66,7 @@ public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> 
                 } else {
                     throw new IllegalStateException();
                 }
+                --size;
             }
 
             @Override
@@ -90,6 +90,7 @@ public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> 
                 nodeBefore.next = newNode;
                 nodeAfter.previous = newNode;
                 ++position;
+                ++size;
             }
         };
     }
