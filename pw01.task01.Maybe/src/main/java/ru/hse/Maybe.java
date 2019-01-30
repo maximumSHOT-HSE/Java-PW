@@ -24,7 +24,10 @@ public class Maybe<T> {
         return link;
     }
 
-    public <U> Maybe<U> map(Function<?, ?> mapper) {
-        return null;
+    public <U> Maybe<U> map(Function<? super T, U> mapper) {
+        if (link == null) {
+            return nothing();
+        }
+        return just(mapper.apply(link));
     }
 }
