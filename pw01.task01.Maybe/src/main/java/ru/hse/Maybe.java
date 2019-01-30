@@ -28,6 +28,10 @@ public class Maybe<T> {
         return value;
     }
 
+    public boolean isPresent() {
+        return !nothing;
+    }
+
     public <U> Maybe<U> map(Function<? super T, U> mapper) {
         if (nothing) {
             return nothing();
