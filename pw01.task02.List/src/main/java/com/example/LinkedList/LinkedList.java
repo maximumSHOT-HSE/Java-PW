@@ -59,6 +59,10 @@ public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> 
                         nodeBeforeBefore.next = nodeAfter;
                     }
                     nodeAfter.previous = nodeBeforeBefore;
+                    if (position == 1) {
+                        head = nodeBefore;
+                    }
+                    --position;
 
                 } else if (direction == -1) {
                     var nodeAfterAfter = nodeAfter.next;
