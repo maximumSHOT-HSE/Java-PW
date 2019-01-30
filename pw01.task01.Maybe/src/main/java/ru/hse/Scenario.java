@@ -17,7 +17,7 @@ public class Scenario {
 //        String outputFileName = args[1];
         String inputFileName = "/home/maximumshot/HSE/Java/Java-PW/pw01.task01.Maybe/src/main/resources/input.txt";
         String outputFileName = "/home/maximumshot/HSE/Java/Java-PW/pw01.task01.Maybe/src/main/resources/output.txt";
-        try( Scanner scanner = new Scanner(
+        try(Scanner scanner = new Scanner(
                 new BufferedInputStream(
                         new FileInputStream(
                                 new File(inputFileName)
