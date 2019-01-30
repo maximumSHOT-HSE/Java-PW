@@ -91,6 +91,11 @@ public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> 
 
             @Override
             public void add(T t) {
+                if (nodeAfter == null) {
+                    nodeAfter = new Node();
+                    nodeAfter.element = t;
+                    return;
+                }
                 var nodeBefore = nodeAfter.previous;
                 var newNode = new Node();
                 newNode.previous = nodeBefore;
