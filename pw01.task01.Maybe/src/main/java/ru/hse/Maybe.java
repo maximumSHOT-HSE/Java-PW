@@ -5,29 +5,33 @@ import java.util.function.Function;
 
 public class Maybe<T> {
 
-    private T link;
+    private T value;
+    private boolean nothing;
 
     public static <T> Maybe<T> just(T t) {
         var result = new Maybe<T>();
-        result.link = t;
+        result.value = t;
+        result.nothing = false;
         return result;
     }
 
     public static <T> Maybe<T> nothing() {
-        return new Maybe<T>();
+        var result = new Maybe<T>();
+        result.nothing = true;
+        return result;
     }
 
     public T get() {
-        if (link == null) {
+        if (nothing) {
             throw new NoSuchElementException("get on nothing is forbidden");
         }
-        return link;
+        return value;
     }
 
     public <U> Maybe<U> map(Function<? super T, U> mapper) {
-        if (link == null) {
+        if (nothing) {
             return nothing();
         }
-        return just(mapper.apply(link));
+        return just(mapper.apply(value));
     }
 }
