@@ -1,8 +1,10 @@
 package com.example.LinkedList;
 
-import java.util.*;
+import java.util.AbstractSequentialList;
+import java.util.List;
+import java.util.ListIterator;
 
-class LinkedList<T> extends AbstractSequentialList<T> implements List<T> {
+public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> {
     private Node head;
     private Node tail;
     private int size;
@@ -10,34 +12,38 @@ class LinkedList<T> extends AbstractSequentialList<T> implements List<T> {
     @Override
     public ListIterator<T> listIterator(int i) {
         return new ListIterator<T>() {
-            LinkedList<T>.Node currentNode = head;
+            LinkedList<T>.Node nodeAfter = head;
+            int direction = 0;
             int position = 0;
 
             @Override
             public boolean hasNext() {
-                return currentNode.next != null;
+                return nodeAfter != null;
             }
 
             @Override
             public T next() {
-                currentNode = currentNode.next;
-                return currentNode.element;
+                direction = 1;
+                T result = nodeAfter.element;
+                nodeAfter = nodeAfter.next;
+                return result;
             }
 
             @Override
             public boolean hasPrevious() {
-                return currentNode.previous != null;
+                return nodeAfter.previous != null;
             }
 
             @Override
             public T previous() {
-                currentNode = currentNode.previous;
-                return currentNode.element
+                direction = -1;
+                nodeAfter = nodeAfter.previous;
+                return nodeAfter.element;
             }
 
             @Override
             public int nextIndex() {
-                return position + 1;
+                return position;
             }
 
             @Override
@@ -47,21 +53,45 @@ class LinkedList<T> extends AbstractSequentialList<T> implements List<T> {
 
             @Override
             public void remove() {
-                var previousNode = currentNode.previous;
-                var nextNode = currentNode.next;
-
+                if (direction == 1) {
+                    var nodeBefore = nodeAfter.previous;
+                    var nodeBeforeBefore = nodeBefore.previous;
+                    nodeBeforeBefore.next = nodeAfter;
+                    nodeAfter.previous = nodeBeforeBefore;
+                } else if (direction == -1) {
+                    var nodeAfterAfter = nodeAfter.next;
+                    var nodeBefore = nodeAfter.previous;
+                    nodeBefore.next = nodeAfterAfter;
+                    nodeAfterAfter.previous = nodeBefore;
+                    nodeAfter = nodeAfterAfter;
+                } else {
+                    throw new IllegalStateException();
+                }
             }
 
             @Override
             public void set(T t) {
-
+                if (direction == 1) {
+                    nodeAfter.previous.element = t;
+                } else if (direction == -1) {
+                    nodeAfter.element = t;
+                } else {
+                    throw new IllegalStateException();
+                }
             }
 
             @Override
             public void add(T t) {
-
+                var nodeBefore = nodeAfter.previous;
+                var newNode = new Node();
+                newNode.previous = nodeBefore;
+                newNode.next = nodeAfter;
+                newNode.element = t;
+                nodeBefore.next = newNode;
+                nodeAfter.previous = newNode;
+                ++position;
             }
-        }
+        };
     }
 
     @Override
