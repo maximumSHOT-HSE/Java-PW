@@ -55,13 +55,18 @@ public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> 
                 if (direction == 1) {
                     var nodeBefore = nodeAfter.previous;
                     var nodeBeforeBefore = nodeBefore.previous;
-                    nodeBeforeBefore.next = nodeAfter;
+                    if (nodeBeforeBefore != null) {
+                        nodeBeforeBefore.next = nodeAfter;
+                    }
                     nodeAfter.previous = nodeBeforeBefore;
+
                 } else if (direction == -1) {
                     var nodeAfterAfter = nodeAfter.next;
                     var nodeBefore = nodeAfter.previous;
                     nodeBefore.next = nodeAfterAfter;
-                    nodeAfterAfter.previous = nodeBefore;
+                    if (nodeAfterAfter != null) {
+                        nodeAfterAfter.previous = nodeBefore;
+                    }
                     nodeAfter = nodeAfterAfter;
                 } else {
                     throw new IllegalStateException();
@@ -87,8 +92,13 @@ public class LinkedList<T> extends AbstractSequentialList<T> implements List<T> 
                 newNode.previous = nodeBefore;
                 newNode.next = nodeAfter;
                 newNode.element = t;
-                nodeBefore.next = newNode;
+                if (nodeBefore != null) {
+                    nodeBefore.next = newNode;
+                }
                 nodeAfter.previous = newNode;
+                if (position == 0) {
+                    head = newNode;
+                }
                 ++position;
                 ++size;
             }
