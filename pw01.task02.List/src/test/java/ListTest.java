@@ -6,10 +6,9 @@ public class ListTest {
 
     List<String> list;
 
-    /*
-
-     */
-
     @Test
+    void test() {
+        list.si
+    }
 
 }
