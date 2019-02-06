@@ -33,7 +33,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
             throw new IndexOutOfBoundsException();
         }
         size--;
-        Object buffer = null;
+        Object buffer;
         if (size + 1 == 1) {
             buffer = data;
             data = null;
@@ -105,6 +105,26 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
             var objList = (ArrayList) data;
             return (E) objList.get(index);
         }
+    }
+
+    @Override
+    public E set(int index, E element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        Object buffer;
+        if (size == 1) {
+            buffer = data;
+            data = element;
+        } else if (size <= 5) {
+            var objArray = (Object[]) data;
+            buffer = objArray[index];
+            objArray[index] = element;
+        } else {
+            var objList = (ArrayList) data;
+            buffer = objList.set(index, element);
+        }
+        return (E) buffer;
     }
 
     @Override
