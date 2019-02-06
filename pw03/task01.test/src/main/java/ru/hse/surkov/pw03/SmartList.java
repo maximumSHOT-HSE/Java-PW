@@ -15,7 +15,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
 
     /** Constructs an empty list */
     public SmartList() {
-        size = 0;g
+        size = 0;
         data = null;
     }
 
