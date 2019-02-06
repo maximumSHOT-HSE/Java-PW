@@ -1,5 +1,6 @@
 package ru.hse.surkov.pw03;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -8,6 +9,103 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmartListTest {
+
+    private List<Integer> l;
+
+    @BeforeEach
+    void setUp() {
+        l = new SmartList<>();
+    }
+
+    @Test
+    void testDefaultConstructor() {
+        assertEquals(0, l.size());
+        for (int i = 0; i <= 10; i++) {
+            assertFalse(l.contains(i));
+        }
+    }
+
+    @Test
+    void testConstructorSet() {
+        for (int sz = 0; sz <= 10; sz++) {
+            Set<Integer> s = new TreeSet<>();
+            for (int i = sz; i >= 1; i--) {
+                s.add(i);
+            }
+            l = new SmartList<>(s);
+            for (var x : s) {
+                assertTrue(l.contains(x));
+            }
+            for (int i = 1; i <= sz; i++) {
+                Integer xx = l.get(i - 1);
+                assertNotNull(xx);
+                int x = xx;
+                assertEquals(i, x);
+            }
+        }
+    }
+
+    @Test
+    void testSize() {
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 1; i <= sz; i++) {
+                l.add(i);
+            }
+            assertEquals(sz, l.size());
+        }
+    }
+
+    @Test
+    void testRemoveException() {
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 1; i <= sz; i++) {
+                l.add(i);
+            }
+            for (int i = -20; i <= 20; i++) {
+                if (0 <= i && i < sz) {
+                    continue;
+                }
+                int finalI = i;
+                assertThrows(IndexOutOfBoundsException.class, () -> l.remove(finalI));
+            }
+        }
+
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 1; i <= sz; i++) {
+                l.add(i);
+            }
+            for (int i = 1; i <= sz + 10; i++) {
+                if (i <= sz) {
+                    assertEquals(Optional.of(i), Optional.ofNullable(l.remove(0)));
+                }
+            }
+        }
+    }
+
+    @Test
+    void testGetException() {
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 1; i <= sz; i++) {
+                l.add(i);
+            }
+            for (int i = -20; i <= 20; i++) {
+                if (0 <= i && i < sz) {
+                    assertEquals(Optional.of(i + 1), Optional.ofNullable(l.get(i)));
+                } else {
+                    int finalI = i;
+                    assertThrows(IndexOutOfBoundsException.class, () -> l.get(finalI));
+                }
+            }
+        }
+    }
+
+
+
+    // MUST HAVE TESTS BEGIN
 
     @Test
     public void testSimple() {
@@ -25,7 +123,6 @@ class SmartListTest {
     @Test
     public void testGetSet() {
         List<Object> list = newList();
-//        List<Object> list = new SmartList<>();
 
         list.add(1);
 
