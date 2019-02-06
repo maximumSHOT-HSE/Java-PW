@@ -70,6 +70,47 @@ class SmartListTest {
     }
 
     @Test
+    void testSetGetRemoveNulls() {
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 0; i < sz; i++) {
+                l.add(i);
+            }
+            for (int i = 0; i < sz; i++) {
+                assertEquals(Optional.of(i), Optional.ofNullable(l.set(i, null)));
+            }
+            for (int i = 0; i < sz; i++) {
+                assertNull(l.get(i));
+            }
+            for (int i = 0; i < sz + 10; i++) {
+                if (i < sz) {
+                    assertNull(l.remove(0));
+                } else {
+                    assertThrows(IndexOutOfBoundsException.class, () -> l.remove(0));
+                }
+            }
+        }
+    }
+
+    @Test
+    void testRemoveNulls() {
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 0; i < sz; i++) {
+                l.add(i);
+            }
+            for (int i = 0; i < sz; i++) {
+                assertEquals(Optional.of(i), Optional.ofNullable(l.set(i, null)));
+            }
+            for (int i = sz - 1; i >= 0; i--) {
+                assertEquals(i + 1, l.size());
+                assertNull(l.remove(i));
+                assertEquals(i, l.size());
+            }
+        }
+    }
+
+    @Test
     void testRemoveException() {
         for (int sz = 0; sz <= 10; sz++) {
             l = new SmartList<>();
@@ -116,7 +157,9 @@ class SmartListTest {
         }
     }
 
-
+    @Test
+    void name() {
+    }
 
     // MUST HAVE TESTS BEGIN
 
