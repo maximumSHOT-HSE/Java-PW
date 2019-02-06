@@ -2,31 +2,36 @@ package ru.hse.surkov.pw03;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
+/**
+ * Mutable list with optimized approach of storing
+ * a small amount of elements.
+ * */
 public class SmartList<E> extends AbstractList<E> implements List<E> {
 
     private int size;
-    @Nullable Object data;
+    @Nullable private Object data;
 
+    /** Constructs an empty list */
     public SmartList() {
-        size = 0;
+        size = 0;g
         data = null;
     }
 
+    /**
+     * Constructs a new list using received collection.
+     * Elements will be added in the same order.
+     * */
     public SmartList(@Nullable Collection<E> collection) {
         size = 0;
         data = null;
         if (collection != null) {
-            for (var element : collection) {
-                add(element);
-            }
+            this.addAll(collection);
         }
     }
 
+    /** {@link List#remove(int)} */
     @Override
     public E remove(int index) {
         if (index < 0 || index >= size) {
@@ -61,6 +66,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
         return (E) buffer;
     }
 
+    /** {@link List#add(Object)} */
     @Override
     public boolean add(@Nullable E e) {
         size++;
@@ -91,6 +97,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
         return true;
     }
 
+    /** {@link List#get(int)} */
     @Override
     public E get(int index) {
         if (index < 0 || index >= size) {
@@ -107,6 +114,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
         }
     }
 
+    /** {@link List#set(int, Object)} */
     @Override
     public E set(int index, E element) {
         if (index < 0 || index >= size) {
@@ -127,6 +135,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
         return (E) buffer;
     }
 
+    /** {@link List#size()} */
     @Override
     public int size() {
         return size;

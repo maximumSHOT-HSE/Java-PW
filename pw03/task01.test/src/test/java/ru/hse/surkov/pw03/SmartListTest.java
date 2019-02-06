@@ -57,6 +57,19 @@ class SmartListTest {
     }
 
     @Test
+    void testADddNulls() {
+        for (int sz = 0; sz <= 10; sz++) {
+            l = new SmartList<>();
+            for (int i = 0; i < sz; i++) {
+                l.add(null);
+            }
+            for (int i = 0; i < sz; i++) {
+                assertNull(l.get(i));
+            }
+        }
+    }
+
+    @Test
     void testRemoveException() {
         for (int sz = 0; sz <= 10; sz++) {
             l = new SmartList<>();
