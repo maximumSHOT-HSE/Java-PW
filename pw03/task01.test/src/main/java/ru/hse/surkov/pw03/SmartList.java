@@ -33,7 +33,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
 
     /** {@link List#remove(int)} */
     @Override
-    public E remove(int index) {
+    @Nullable public E remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -99,7 +99,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
 
     /** {@link List#get(int)} */
     @Override
-    public E get(int index) {
+    @Nullable public E get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -116,7 +116,7 @@ public class SmartList<E> extends AbstractList<E> implements List<E> {
 
     /** {@link List#set(int, Object)} */
     @Override
-    public E set(int index, E element) {
+    @Nullable public E set(int index, @Nullable E element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
