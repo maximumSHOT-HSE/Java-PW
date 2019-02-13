@@ -43,7 +43,11 @@ public final class FirstPartTasks {
 
     // Число повторяющихся альбомов в потоке
     public static long countAlbumDuplicates(Stream<Album> albums) {
-        throw new UnsupportedOperationException();
+        return albums.collect(Collectors.groupingBy(Album::getName))
+                .values()
+                .stream()
+                .mapToInt(list -> list.size() - 1)
+                .sum();
     }
 
     // Альбом, в котором максимум рейтинга минимален
@@ -54,23 +58,27 @@ public final class FirstPartTasks {
 
     // Список альбомов, отсортированный по убыванию среднего рейтинга его треков (0, если треков нет)
     public static List<Album> sortByAverageRating(Stream<Album> albums) {
-        throw new UnsupportedOperationException();
+        return albums.sorted(Comparator.comparingDouble((Album album) -> {
+            return -album.getTracks().stream().mapToInt(Track::getRating).average().orElse(0);
+        }
+        )).collect(Collectors.toList());
     }
 
     // Произведение всех чисел потока по модулю 'modulo'
     // (все числа от 0 до 10000)
     public static int moduloProduction(IntStream stream, int modulo) {
-        throw new UnsupportedOperationException();
+        return stream.reduce((a, b) -> ((a % modulo) * (b % modulo)) % modulo).orElse(1);
     }
 
     // Вернуть строку, состояющую из конкатенаций переданного массива, и окруженную строками "<", ">"
     // см. тесты
     public static String joinTo(String... strings) {
-        throw new UnsupportedOperationException();
+        return Stream.of(strings).collect(Collectors.joining(", ", "<", ">"));
     }
 
     // Вернуть поток из объектов класса 'clazz'
     public static <R> Stream<R> filterIsInstance(Stream<?> s, Class<R> clazz) {
-        throw new UnsupportedOperationException();
+        // FIXME
+        return s.filter(object -> object.getClass() == clazz).map(object -> (R) object);
     }
 }
