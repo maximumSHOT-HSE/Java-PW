@@ -1,8 +1,6 @@
 package com.example.streams;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -13,31 +11,33 @@ public final class FirstPartTasks {
 
     // Список названий альбомов
     public static List<String> allNames(Stream<Album> albums) {
-        throw new UnsupportedOperationException();
+        return albums.map(Album::getName).collect(Collectors.toList());
     }
 
     // Список названий альбомов, отсортированный лексикографически по названию
     public static List<String> allNamesSorted(Stream<Album> albums) {
-        throw new UnsupportedOperationException();
+        return albums.map(Album::getName).sorted().collect(Collectors.toList());
     }
 
     // Список треков, отсортированный лексикографически по названию, включающий все треки альбомов из 'albums'
     public static List<String> allTracksSorted(Stream<Album> albums) {
-        throw new UnsupportedOperationException();
+        return albums.flatMap(a -> a.getTracks().stream()).map(Track::getName).sorted().collect(Collectors.toList());
     }
 
     // Список альбомов, в которых есть хотя бы один трек с рейтингом более 95, отсортированный по названию
     public static List<Album> sortedFavorites(Stream<Album> s) {
-        throw new UnsupportedOperationException();
+        return s.filter(x -> !x.getTracks().isEmpty() && Collections.max(x.getTracks(), Comparator.comparingInt(Track::getRating)).getRating() > 95)
+                .sorted(Comparator.comparing(Album::getName)).collect(Collectors.toList());
     }
 
     // Сгруппировать альбомы по артистам
     public static Map<Artist, List<Album>> groupByArtist(Stream<Album> albums) {
-        throw new UnsupportedOperationException();
+        return albums.collect(Collectors.groupingBy(a -> a.getArtist()));
     }
 
-    // Сгруппировать альбомы по артистам (в качестве значения вместо объекта 'Artist' использовать его имя)
+    // Сгруппировать альбомы по артистам (в качестве значения вместо объекта 'Album' использовать его имя)
     public static Map<Artist, List<String>> groupByArtistMapName(Stream<Album> albums) {
+//        return albums.collect(Collectors.groupingBy())
         throw new UnsupportedOperationException();
     }
 
