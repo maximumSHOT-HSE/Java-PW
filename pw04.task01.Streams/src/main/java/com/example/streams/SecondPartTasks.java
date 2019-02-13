@@ -2,6 +2,8 @@ package com.example.streams;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -11,8 +13,6 @@ import java.util.stream.Stream;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
-
-import java.nio.file.Paths;
 
 public final class SecondPartTasks {
 
@@ -46,12 +46,20 @@ public final class SecondPartTasks {
     // Дано отображение из имени автора в список с содержанием его произведений.
     // Надо вычислить, чья общая длина произведений наибольшая.
     public static String findPrinter(Map<String, List<String>> compositions) {
-        throw new UnsupportedOperationException();
+        return compositions
+                .keySet()
+                .stream()
+                .max(Comparator.comparing(a1 ->
+                        compositions
+                        .get(a1)
+                        .stream()
+                        .mapToInt(String::length).sum())
+                )
+                .get();
     }
 
     // Вы крупный поставщик продуктов. Каждая торговая сеть делает вам заказ в виде Map<Товар, Количество>.
     // Необходимо вычислить, какой товар и в каком количестве надо поставить.
     public static Map<String, Integer> calculateGlobalOrder(List<Map<String, Integer>> orders) {
-        throw new UnsupportedOperationException();
     }
 }
