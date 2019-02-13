@@ -32,13 +32,12 @@ public final class FirstPartTasks {
 
     // Сгруппировать альбомы по артистам
     public static Map<Artist, List<Album>> groupByArtist(Stream<Album> albums) {
-        return albums.collect(Collectors.groupingBy(a -> a.getArtist()));
+        return albums.collect(Collectors.groupingBy(Album::getArtist));
     }
 
     // Сгруппировать альбомы по артистам (в качестве значения вместо объекта 'Album' использовать его имя)
     public static Map<Artist, List<String>> groupByArtistMapName(Stream<Album> albums) {
-//        return albums.collect(Collectors.groupingBy())
-        throw new UnsupportedOperationException();
+        return albums.collect(Collectors.groupingBy(Album::getArtist, Collectors.mapping(Album::getName, Collectors.toList())));
     }
 
     // Число повторяющихся альбомов в потоке
