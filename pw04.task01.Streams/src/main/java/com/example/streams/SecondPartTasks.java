@@ -3,10 +3,7 @@ package com.example.streams;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
@@ -38,8 +35,8 @@ public final class SecondPartTasks {
     public static double piDividedBy4() {
         var random = new Random();
         return DoubleStream.generate(() -> sqrt(pow(random.nextDouble() - 0.5, 2) + pow(random.nextDouble() - 0.5, 2)))
-                .map(distance -> Math.floor(distance))
-                .limit(1000)
+                .map(distance -> 1 - Math.floor(distance * 2))
+                .limit(10000)
                 .average().orElse(0);
     }
 
@@ -61,6 +58,10 @@ public final class SecondPartTasks {
     // Вы крупный поставщик продуктов. Каждая торговая сеть делает вам заказ в виде Map<Товар, Количество>.
     // Необходимо вычислить, какой товар и в каком количестве надо поставить.
     public static Map<String, Integer> calculateGlobalOrder(List<Map<String, Integer>> orders) {
-        return null;
+        return orders.stream().reduce((m1, m2) -> {
+            var result = new TreeMap<String, Integer>();
+            Stream.concat(m1.keySet().stream(), m2.keySet().stream()).distinct().forEach(key -> result.put(key, Integer.sum(m1.getOrDefault(key, 0), (m2.getOrDefault(key, 0)))));
+            return result;
+        }).orElse(new TreeMap<String, Integer>());
     }
 }
