@@ -180,6 +180,33 @@ class SerializationTest {
     }
 
     @Test
+    void testDeserializingSquare() throws IOException, IllegalAccessException {
+        var square = new Square();
+
+        try (var generatedByteArrayOutputStream = new ByteArrayOutputStream();
+             var generatedOutputStream = new DataOutputStream(generatedByteArrayOutputStream)) {
+
+            generatedOutputStream.writeByte(square.byteVar);
+            generatedOutputStream.writeDouble(square.width);
+
+            generatedOutputStream.writeInt(square.buffer.length());
+            generatedOutputStream.writeChars(square.buffer);
+            generatedOutputStream.writeInt(square.name.length());
+            generatedOutputStream.writeChars(square.name);
+            generatedOutputStream.writeInt(((Shape) square).version);
+
+            var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
+            var deserializedSquare = Serialization.deserialize(generatedInputStream, Square.class);
+
+            assertEquals(square.byteVar, deserializedSquare.byteVar);
+            assertEquals(square.width, deserializedSquare.width);
+            assertEquals(square.buffer, deserializedSquare.buffer);
+            assertEquals(square.name, deserializedSquare.name);
+            assertEquals(((Shape) square).version, ((Shape) deserializedSquare).version);
+        }
+    }
+
+    @Test
     void testSerializingRectangle() throws IOException, IllegalAccessException {
         var rectangle = new Rectangle();
 
@@ -201,6 +228,38 @@ class SerializationTest {
 
             Serialization.serialize(rectangle, receivedOutputStream);
             assertArrayEquals(expectedByteArrayOutputStream.toByteArray(), receivedOutputStream.toByteArray());
+        }
+    }
+
+    @Test
+    void testDeserializingRectangle() throws IOException, IllegalAccessException {
+        var rectangle = new Rectangle();
+
+        try (var generatedByteArrayOutputStream = new ByteArrayOutputStream();
+             var generatedOutputStream = new DataOutputStream(generatedByteArrayOutputStream)) {
+
+            generatedOutputStream.writeDouble(rectangle.height);
+            generatedOutputStream.writeLong(rectangle.longVar);
+
+            generatedOutputStream.writeByte(rectangle.byteVar);
+            generatedOutputStream.writeDouble(((Square) rectangle).width);
+
+            generatedOutputStream.writeInt(rectangle.buffer.length());
+            generatedOutputStream.writeChars(rectangle.buffer);
+            generatedOutputStream.writeInt(rectangle.name.length());
+            generatedOutputStream.writeChars(rectangle.name);
+            generatedOutputStream.writeInt(((Shape) rectangle).version);
+
+            var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
+            var deserializedRectangle = Serialization.deserialize(generatedInputStream, Rectangle.class);
+
+            assertEquals(rectangle.height, deserializedRectangle.height);
+            assertEquals(rectangle.longVar, deserializedRectangle.longVar);
+            assertEquals(rectangle.byteVar, deserializedRectangle.byteVar);
+            assertEquals(((Square) rectangle).width, ((Square) deserializedRectangle).width);
+            assertEquals(rectangle.buffer, deserializedRectangle.buffer);
+            assertEquals(rectangle.name, deserializedRectangle.name);
+            assertEquals(((Shape) rectangle).version, ((Shape) deserializedRectangle).version);
         }
     }
 
@@ -260,6 +319,4 @@ class SerializationTest {
         var ellipse = new Ellipse();
         assertThrows(IllegalArgumentException.class, () -> Serialization.serialize(ellipse, null));
     }
-
-
 }
