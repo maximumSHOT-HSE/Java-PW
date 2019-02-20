@@ -62,7 +62,6 @@ class SerializationTest {
         }
     }
 
-
     public static class Shape {
         public final static float pi = (float) 3.14;
 
