@@ -52,7 +52,12 @@ class SerializationTest {
             generatedOutputStream.writeDouble(simpleSquare.width);
 
             var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
-            var deserializedSimpleSquare = Serialization.deserialize(generatedInputStream, Square.class);git
+            var deserializedSimpleSquare = Serialization.deserialize(generatedInputStream, SimpleSquareClass.class);
+
+            assertEquals(simpleSquare.area, deserializedSimpleSquare.area);
+            assertEquals(simpleSquare.name, deserializedSimpleSquare.name);
+            assertEquals(simpleSquare.version, deserializedSimpleSquare.version);
+            assertEquals(simpleSquare.width, deserializedSimpleSquare.width);
         }
     }
 
