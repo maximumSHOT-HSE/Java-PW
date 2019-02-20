@@ -228,6 +228,36 @@ class SerializationTest {
     }
 
     @Test
+    void testDeserializingCircle() throws IOException, IllegalAccessException {
+        var circle = new Circle();
+
+        try (var generatedByteArrayOutputStream = new ByteArrayOutputStream();
+             var generatedOutputStream = new DataOutputStream(generatedByteArrayOutputStream);) {
+
+            generatedOutputStream.writeDouble(circle.radius);
+            generatedOutputStream.writeShort(circle.shortVar);
+            generatedOutputStream.writeBoolean(circle.someFlag);
+
+            generatedOutputStream.writeInt(circle.buffer.length());
+            generatedOutputStream.writeChars(circle.buffer);
+            generatedOutputStream.writeInt(circle.name.length());
+            generatedOutputStream.writeChars(circle.name);
+            generatedOutputStream.writeInt(((Shape) circle).version);
+
+            var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
+            var deserializedCircle = Serialization.deserialize(generatedInputStream, Circle.class);
+
+            assertEquals(circle.radius, deserializedCircle.radius);
+            assertEquals(circle.shortVar, deserializedCircle.shortVar);
+            assertEquals(circle.someFlag, deserializedCircle.someFlag);
+
+            assertEquals(circle.buffer, deserializedCircle.buffer);
+            assertEquals(circle.name, deserializedCircle.name);
+            assertEquals(((Shape) circle).version, ((Shape) deserializedCircle).version);
+        }
+    }
+
+    @Test
     void testSerializingEllipse() throws IOException, IllegalAccessException {
         var ellipse = new Ellipse();
 
@@ -256,10 +286,52 @@ class SerializationTest {
     }
 
     @Test
+    void testDeserializingEllipse() throws IOException, IllegalAccessException {
+        var ellipse = new Ellipse();
+
+        try (var generatedByteArrayOutputStream = new ByteArrayOutputStream();
+             var generatedOutputStream = new DataOutputStream(generatedByteArrayOutputStream)) {
+
+            generatedOutputStream.writeDouble(ellipse.focus);
+            generatedOutputStream.writeInt(ellipse.message.length());
+            generatedOutputStream.writeChars(ellipse.message);
+            generatedOutputStream.writeChar(ellipse.symbol);
+
+            generatedOutputStream.writeDouble(ellipse.radius);
+            generatedOutputStream.writeShort(((Circle) ellipse).shortVar);
+            generatedOutputStream.writeBoolean(((Circle) ellipse).someFlag);
+
+            generatedOutputStream.writeInt(ellipse.buffer.length());
+            generatedOutputStream.writeChars(ellipse.buffer);
+            generatedOutputStream.writeInt(ellipse.name.length());
+            generatedOutputStream.writeChars(ellipse.name);
+            generatedOutputStream.writeInt(((Shape) ellipse).version);
+
+            var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
+            var deserializedEllipse = Serialization.deserialize(generatedInputStream, Ellipse.class);
+
+            assertEquals(ellipse.focus, deserializedEllipse.focus);
+            assertEquals(ellipse.message, deserializedEllipse.message);
+            assertEquals(ellipse.symbol, deserializedEllipse.symbol);
+
+            assertEquals(ellipse.radius, deserializedEllipse.radius);
+            assertEquals(((Circle) ellipse).shortVar, ((Circle) deserializedEllipse).shortVar);
+            assertEquals(((Circle) ellipse).someFlag, ((Circle) deserializedEllipse).someFlag);
+
+            assertEquals(ellipse.buffer, deserializedEllipse.buffer);
+            assertEquals(ellipse.name, deserializedEllipse.name);
+            assertEquals(((Shape) ellipse).version, ((Shape) deserializedEllipse).version);
+        }
+    }
+
+    @Test
     void testSerializingWithNullArguments() {
         var ellipse = new Ellipse();
         assertThrows(IllegalArgumentException.class, () -> Serialization.serialize(ellipse, null));
     }
 
-
+    @Test
+    void testDeserializingWithNullArguments() {
+        assertThrows(IllegalArgumentException.class, () -> Serialization.deserialize(null, Ellipse.class));
+    }
 }
