@@ -155,7 +155,7 @@ class SerializationTest {
             expectedOutputStream.writeChars(rectangle.name);
             expectedOutputStream.writeInt(((Shape) rectangle).version);
 
-            Serialization.serialize(receivedOutputStream, receivedOutputStream);
+            Serialization.serialize(rectangle, receivedOutputStream);
             assertArrayEquals(expectedByteArrayOutputStream.toByteArray(), receivedOutputStream.toByteArray());
         }
     }
@@ -210,4 +210,12 @@ class SerializationTest {
             assertArrayEquals(expectedByteArrayOutputStream.toByteArray(), receivedOutputStream.toByteArray());
         }
     }
+
+    @Test
+    void testSerializingWithNullArguments() {
+        var ellipse = new Ellipse();
+        assertThrows(IllegalArgumentException.class, () -> Serialization.serialize(ellipse, null));
+    }
+
+
 }
