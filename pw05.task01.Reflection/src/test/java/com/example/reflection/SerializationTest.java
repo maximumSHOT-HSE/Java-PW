@@ -23,7 +23,7 @@ class SerializationTest {
     }
 
     @Test
-    void testSerializeSimpleSquareClass() throws IOException {
+    void testSerializeSimpleSquareClass() throws IOException, IllegalAccessException {
         var simpleSquareClass = new SimpleSquareClass();
 
         try (var expectedByteArrayOutputStream = new ByteArrayOutputStream();
@@ -95,7 +95,7 @@ class SerializationTest {
     }
 
     @Test
-    void testSerializingShape() throws IOException {
+    void testSerializingShape() throws IOException, IllegalAccessException {
         var shape = new Shape();
 
         try (var expectedByteArrayOutputStream = new ByteArrayOutputStream();
@@ -114,7 +114,7 @@ class SerializationTest {
     }
 
     @Test
-    void testSerializingSquare() throws IOException {
+    void testSerializingSquare() throws IOException, IllegalAccessException {
         var square = new Square();
 
         try (var expectedByteArrayOutputStream = new ByteArrayOutputStream();
@@ -136,7 +136,7 @@ class SerializationTest {
     }
 
     @Test
-    void testSerializingRectangle() throws IOException {
+    void testSerializingRectangle() throws IOException, IllegalAccessException {
         var rectangle = new Rectangle();
 
         try (var expectedByteArrayOutputStream = new ByteArrayOutputStream();
@@ -161,7 +161,7 @@ class SerializationTest {
     }
 
     @Test
-    void testSerializingCircle() throws IOException {
+    void testSerializingCircle() throws IOException, IllegalAccessException {
         var circle = new Circle();
 
         try (var expectedByteArrayOutputStream = new ByteArrayOutputStream();
@@ -184,7 +184,7 @@ class SerializationTest {
     }
 
     @Test
-    void testSerializingEllipse() throws IOException {
+    void testSerializingEllipse() throws IOException, IllegalAccessException {
         var ellipse = new Ellipse();
 
         try (var expectedByteArrayOutputStream = new ByteArrayOutputStream();
