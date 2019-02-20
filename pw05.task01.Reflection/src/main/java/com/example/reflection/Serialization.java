@@ -2,6 +2,7 @@ package com.example.reflection;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -53,7 +54,7 @@ public class Serialization {
         try {
             result = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception ignored) {
-            // unreachable
+//             unreachable
         }
 
         assert result != null;

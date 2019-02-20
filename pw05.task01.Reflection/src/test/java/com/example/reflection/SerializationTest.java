@@ -3,12 +3,13 @@ package com.example.reflection;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SerializationTest {
 
-    final class SimpleSquareClass {
+    static public final class SimpleSquareClass {
         private String name = "square";
         private double width = 5;
         private double area = 25.0;
@@ -62,7 +63,7 @@ class SerializationTest {
     }
 
 
-    static class Shape {
+    public static class Shape {
         public final static float pi = (float) 3.14;
 
         private int version = 9;
@@ -131,6 +132,28 @@ class SerializationTest {
 
             Serialization.serialize(shape, receivedOutputStream);
             assertArrayEquals(expectedByteArrayOutputStream.toByteArray(), receivedOutputStream.toByteArray());
+        }
+    }
+
+    @Test
+    void testDeserializingShape() throws IOException, IllegalAccessException {
+        var shape = new Shape();
+
+        try (var generatedByteArrayOutputStream = new ByteArrayOutputStream();
+             var generatedOutputStream = new DataOutputStream(generatedByteArrayOutputStream)) {
+
+            generatedOutputStream.writeInt(shape.buffer.length());
+            generatedOutputStream.writeChars(shape.buffer);
+            generatedOutputStream.writeInt(shape.name.length());
+            generatedOutputStream.writeChars(shape.name);
+            generatedOutputStream.writeInt(shape.version);
+
+            var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
+            var deserializedShape = Serialization.deserialize(generatedInputStream, Shape.class);
+
+            assertEquals(shape.buffer, deserializedShape.buffer);
+            assertEquals(shape.name, deserializedShape.name);
+            assertEquals(shape.version, deserializedShape.version);
         }
     }
 
