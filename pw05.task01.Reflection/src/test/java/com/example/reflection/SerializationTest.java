@@ -12,7 +12,7 @@ class SerializationTest {
     static public final class SimpleSquareClass {
         private String name = "square";
         private double width = 5;
-        private double area = 25.0;
+        final private double area = 25.0;
         public int version = 7;
         /*
         * Lexicographical order:
@@ -68,7 +68,7 @@ class SerializationTest {
 
         private int version = 9;
         public String name = "shape";
-        protected String buffer = "???";
+        final protected String buffer = "???";
         /*
          * Lexicographical order:
          * buffer, name, version
@@ -107,8 +107,8 @@ class SerializationTest {
     }
 
     static public class Ellipse extends Circle {
-        private double focus = 5.0;
-        public char symbol = 'y';
+        final private double focus = 5.0;
+        final public char symbol = 'y';
         public String message = "message";
         /*
          * Lexicographical order:
