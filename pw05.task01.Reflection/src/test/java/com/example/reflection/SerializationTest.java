@@ -2,10 +2,7 @@ package com.example.reflection;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +37,25 @@ class SerializationTest {
             assertArrayEquals(expectedByteArrayOutputStream.toByteArray(), receivedOutputStream.toByteArray());
         }
     }
+
+    @Test
+    void testDeserializeSimpleSquareClass() throws IOException, IllegalAccessException {
+        var simpleSquare = new SimpleSquareClass();
+
+        try (var generatedByteArrayOutputStream = new ByteArrayOutputStream();
+             var generatedOutputStream = new DataOutputStream(generatedByteArrayOutputStream)) {
+
+            generatedOutputStream.writeDouble(simpleSquare.area);
+            generatedOutputStream.writeInt(simpleSquare.name.length());
+            generatedOutputStream.writeChars(simpleSquare.name);
+            generatedOutputStream.writeInt(simpleSquare.version);
+            generatedOutputStream.writeDouble(simpleSquare.width);
+
+            var generatedInputStream = new ByteArrayInputStream(generatedByteArrayOutputStream.toByteArray());
+            var deserializedSimpleSquare = Serialization.deserialize(generatedInputStream, Square.class);git
+        }
+    }
+
 
     static class Shape {
         public final static float pi = (float) 3.14;
