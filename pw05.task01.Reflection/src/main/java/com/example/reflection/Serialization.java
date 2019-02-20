@@ -2,6 +2,7 @@ package com.example.reflection;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -103,7 +104,7 @@ public class Serialization {
             Arrays.sort(fields, Comparator.comparing(Field::getName));
 
             for (var field: fields) {
-                if (field.isSynthetic()) {
+                if (field.isSynthetic() || Modifier.isStatic(field.getModifiers())) {
                     continue;
                 }
 
