@@ -1,9 +1,7 @@
 *.jar
 !gradle-wrapper.jar
 .gradle/
-workspace.xml
-usage.statistics.xml
-tasks.xml
 out/
-uiDesigner.xml
 build/
+*.iml
+/**/.idea/*
