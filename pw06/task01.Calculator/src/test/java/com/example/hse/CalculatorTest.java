@@ -20,7 +20,6 @@ class CalculatorTest {
     void testPlus() {
         var calculator = new Calculator(new ArrayList<>());
         assertEquals(3, (int) calculator.calculate("1 2 +"));
-
     }
 
     @Test
@@ -116,5 +115,24 @@ class CalculatorTest {
         inOrder.verify(spy).remove(0);
         inOrder.verify(spy).add(10);
         inOrder.verify(spy).get(0);
+    }
+
+    @Test
+    void testSpyDivByNull() {
+        List<Integer> list = new LinkedList<>();
+        List<Integer> spy = spy(list);
+
+        InOrder inOrder = inOrder(spy);
+        String expression = "42 0 /";
+
+        Calculator calculator = new Calculator(spy);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+
+        inOrder.verify(spy).add(42);
+        inOrder.verify(spy).add(0);
+        inOrder.verify(spy).get(1);
+        inOrder.verify(spy).remove(1);
+        inOrder.verify(spy).get(0);
+        inOrder.verify(spy).remove(0);
     }
 }

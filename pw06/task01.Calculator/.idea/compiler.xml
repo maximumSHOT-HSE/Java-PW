@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="com.example.hse.pw06.task01.Calculator.main" target="1.8" />
       <module name="com.example.hse.pw06.task01.Calculator.test" target="1.8" />
+      <module name="ru.hse.surkov.pw06.task01.Calculator.main" target="11" />
+      <module name="ru.hse.surkov.pw06.task01.Calculator.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

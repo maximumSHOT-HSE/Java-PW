@@ -42,7 +42,11 @@ public class Calculator {
                         result = left * right;
                         break;
                     case "/":
-                        result = left / right;
+                        try {
+                            result = left / right;
+                        } catch (ArithmeticException arithmeticException) {
+                            throw new IllegalArgumentException("incorrect expression: division by zero");
+                        }
                         break;
                     default:
                         throw new IllegalArgumentException("unsupported operation");
