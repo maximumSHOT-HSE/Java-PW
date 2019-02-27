@@ -1,7 +1,9 @@
 package com.example.hse;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Calculator {
 
@@ -21,6 +23,7 @@ public class Calculator {
             Integer value, left, right;
             try {
                 value = Integer.parseInt(token);
+                values.add(value);
             } catch (NumberFormatException e) {
                 if (values.size() < 2) {
                     throw new IllegalArgumentException("incorrect expression");
