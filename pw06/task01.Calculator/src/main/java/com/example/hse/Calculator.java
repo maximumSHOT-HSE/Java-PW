@@ -14,7 +14,7 @@ public class Calculator {
         values = stack;
     }
 
-    public Integer calculate(String expression) {
+    public int calculate(String expression) {
         if (expression == null) {
             throw new NullPointerException("expression can not be null");
         }
