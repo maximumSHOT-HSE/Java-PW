@@ -203,4 +203,77 @@ class CalculatorTest {
         inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(0);
     }
+
+    @Test
+    void testSpyDivByNull() {
+        List<Integer> list = new LinkedList<>();
+        List<Integer> spy = spy(list);
+
+        InOrder inOrder = inOrder(spy);
+        String expression = "42 0 /";
+
+        Calculator calculator = new Calculator(spy);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+
+        inOrder.verify(spy).add(42);
+        inOrder.verify(spy).add(0);
+        inOrder.verify(spy).get(1);
+        inOrder.verify(spy).remove(1);
+        inOrder.verify(spy).get(0);
+        inOrder.verify(spy).remove(0);
+    }
+
+    @Test
+    void testIncorrectExpressionInfix() {
+        String expression = "3 + 4";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionDivByZero() {
+        String expression = "3 0 /";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionCanNotParseInt() {
+        String expression = "a 4 +";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionSmallSize() {
+        String expression = "3 +";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionBigSize() {
+        String expression = "3 4 + 1 2 3 3 4 4 5 6 7";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testPriorityOperationsMockTest() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+        // (5 + 6) * 4 = 44
+        String expression = "5 6 + 4 *";
+
+        var calculator = new Calculator(listMock);
+
+        when(listMock.get(anyInt())).thenReturn(6, 5, 11, 44);
+        when(listMock.size()).thenReturn(2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1);
+
+        assertEquals(44, calculator.calculate(expression));
+    }
 }
