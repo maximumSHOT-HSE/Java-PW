@@ -16,9 +16,9 @@ public class Calculator {
         if (expression == null) {
             throw new NullPointerException("expression can not be null");
         }
-        List<String> items = Arrays.asList(expression.split(" "));
+        String[] items = expression.split(" ");
         for (var token : items) {
-            Integer value, left, right;
+            int value, left, right;
             try {
                 value = Integer.parseInt(token);
                 values.add(value);
@@ -30,7 +30,7 @@ public class Calculator {
                 values.remove(values.size() - 1);
                 left = values.get(values.size() - 1);
                 values.remove(values.size() - 1);
-                Integer result;
+                int result;
                 switch (token) {
                     case "+":
                         result = left + right;
