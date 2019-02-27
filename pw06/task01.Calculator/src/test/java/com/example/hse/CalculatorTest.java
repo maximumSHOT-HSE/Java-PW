@@ -136,4 +136,44 @@ class CalculatorTest {
         inOrder.verify(spy).get(0);
         inOrder.verify(spy).remove(0);
     }
+
+    @Test
+    void testIncorrectExpressionInfix() {
+        String expression = "3 + 4";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionDivByZero() {
+        String expression = "3 0 /";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionCanNotParseInt() {
+        String expression = "a 4 +";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionSmallSize() {
+        String expression = "3 +";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
+
+    @Test
+    void testIncorrectExpressionBigSize() {
+        String expression = "3 4 + 1 2 3 3 4 4 5 6 7";
+        List<Integer> list = new LinkedList<>();
+        Calculator calculator = new Calculator(list);
+        assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
+    }
 }
