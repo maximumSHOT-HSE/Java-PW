@@ -176,4 +176,9 @@ class CalculatorTest {
         Calculator calculator = new Calculator(list);
         assertThrows(IllegalArgumentException.class, () -> calculator.calculate(expression));
     }
+
+    @Test
+    void testPriorityOperationsMockTest() {
+
+    }
 }
