@@ -1,20 +1,32 @@
 package com.example.hse;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.spy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CalculatorTest {
 
-    private List list;
-    private List spy;
+    @Test
+    void testPlus() {
+        var calculator = new Calculator(new ArrayList<>());
+        assertEquals(3, (int) calculator.calculate("1 2 +"));
 
-    @BeforeEach
-    void setUp() {
-        list = new LinkedList();
-        spy = spy(list);
+    }
+
+    @Test
+    void testMockPlus() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+
+        var calculator = new Calculator(listMock);
+
+        when(listMock.get(anyInt())).thenReturn(3, 4, 7);
+
+        assertEquals(7, (int) calculator.calculate("3 4 +"));
     }
 }
