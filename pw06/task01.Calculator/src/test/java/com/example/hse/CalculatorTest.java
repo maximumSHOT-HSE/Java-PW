@@ -20,7 +20,24 @@ class CalculatorTest {
     void testPlus() {
         var calculator = new Calculator(new ArrayList<>());
         assertEquals(3, (int) calculator.calculate("1 2 +"));
+    }
 
+    @Test
+    void testMinus() {
+        var calculator = new Calculator(new ArrayList<>());
+        assertEquals(-1, (int) calculator.calculate("1 2 -"));
+    }
+
+    @Test
+    void testDivide() {
+        var calculator = new Calculator(new ArrayList<>());
+        assertEquals(4, (int) calculator.calculate("20 5 /"));
+    }
+
+    @Test
+    void testMultyply() {
+        var calculator = new Calculator(new ArrayList<>());
+        assertEquals(12, (int) calculator.calculate("3 4 *"));
     }
 
     @Test
@@ -29,10 +46,58 @@ class CalculatorTest {
 
         var calculator = new Calculator(listMock);
 
-        when(listMock.get(anyInt())).thenReturn(3, 4, 7);
-        when(listMock.size()).thenReturn(2, 1);
+        when(listMock.get(anyInt())).thenReturn(4, 3, 7);
+        when(listMock.size()).thenReturn(2, 2, 2, 1);
 
         assertEquals(7, (int) calculator.calculate("3 4 +"));
+    }
+
+    @Test
+    void testMockMinus() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+
+        var calculator = new Calculator(listMock);
+
+        when(listMock.get(anyInt())).thenReturn(4, 3, -1);
+        when(listMock.size()).thenReturn(2, 2, 2, 1);
+
+        assertEquals(-1, (int) calculator.calculate("3 4 -"));
+    }
+
+    @Test
+    void testMockMultiply() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+
+        var calculator = new Calculator(listMock);
+
+        when(listMock.get(anyInt())).thenReturn(4, 3, 12);
+        when(listMock.size()).thenReturn(2, 2, 2, 1);
+
+        assertEquals(12, (int) calculator.calculate("3 4 *"));
+    }
+
+    @Test
+    void testMockDivide() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+
+        var calculator = new Calculator(listMock);
+
+        when(listMock.get(anyInt())).thenReturn(4, 20, 5);
+        when(listMock.size()).thenReturn(2, 2, 2, 1);
+
+        assertEquals(5, (int) calculator.calculate("20 4 /"));
+    }
+    
+    @Test
+    void testBigMock() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+
+        when(listMock.get(anyInt())).thenReturn(4, 3, 5, -1, -5);
+        when(listMock.size()).thenReturn(2, 2, 2, 2, 2, 2, 1);
+
+        var calculator = new Calculator(listMock);
+
+        assertEquals(-5, (int) calculator.calculate("3 4 - 5 *"));
     }
 
     @Test
@@ -48,11 +113,16 @@ class CalculatorTest {
 
         inOrder.verify(spy).add(7);
         inOrder.verify(spy).add(6);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).get(0);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(0);
         inOrder.verify(spy).add(13);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(0);
     }
 
@@ -69,11 +139,16 @@ class CalculatorTest {
 
         inOrder.verify(spy).add(7);
         inOrder.verify(spy).add(13);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).get(0);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(0);
         inOrder.verify(spy).add(-6);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(0);
     }
 
@@ -90,11 +165,16 @@ class CalculatorTest {
 
         inOrder.verify(spy).add(7);
         inOrder.verify(spy).add(6);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).get(0);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(0);
         inOrder.verify(spy).add(42);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(0);
     }
 
@@ -111,11 +191,16 @@ class CalculatorTest {
 
         inOrder.verify(spy).add(42);
         inOrder.verify(spy).add(4);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(1);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).get(0);
+        inOrder.verify(spy).size();
         inOrder.verify(spy).remove(0);
         inOrder.verify(spy).add(10);
+        inOrder.verify(spy, times(2)).size();
         inOrder.verify(spy).get(0);
     }
 }
