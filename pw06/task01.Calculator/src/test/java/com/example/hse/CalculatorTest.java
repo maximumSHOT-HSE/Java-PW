@@ -29,6 +29,7 @@ class CalculatorTest {
         var calculator = new Calculator(listMock);
 
         when(listMock.get(anyInt())).thenReturn(3, 4, 7);
+        when(listMock.size()).thenReturn(2, 1);
 
         assertEquals(7, (int) calculator.calculate("3 4 +"));
     }
