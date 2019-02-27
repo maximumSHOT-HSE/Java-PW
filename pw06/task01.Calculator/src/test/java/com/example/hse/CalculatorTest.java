@@ -179,6 +179,15 @@ class CalculatorTest {
 
     @Test
     void testPriorityOperationsMockTest() {
+        List<Integer> listMock = (List<Integer>) mock(List.class);
+        // (5 + 6) * 4 = 44
+        String expression = "5 6 + 4 *";
 
+        var calculator = new Calculator(listMock);
+
+        when(listMock.get(anyInt())).thenReturn(6, 5, 11, 44);
+        when(listMock.size()).thenReturn(2, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1);
+
+        assertEquals(44, calculator.calculate(expression));
     }
 }
