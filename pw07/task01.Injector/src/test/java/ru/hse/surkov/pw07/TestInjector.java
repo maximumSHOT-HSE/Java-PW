@@ -50,4 +50,9 @@ public class TestInjector {
         implementations.add("ru.hse.surkov.pw07.C");
         assertThrows(InjectionCycleException.class, () -> Injector.initialize("ru.hse.surkov.pw07.A", implementations));
     }
+
+    @Test
+    void testImplementationHasNotBeenFound() {
+        assertThrows(ImplementationNotFoundException.class, () -> Injector.initialize("ru.hse.surkov.pw07.A", Collections.emptyList()));
+    }
 }
