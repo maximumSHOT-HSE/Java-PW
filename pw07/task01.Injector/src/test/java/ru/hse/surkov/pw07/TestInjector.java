@@ -11,17 +11,17 @@ public class TestInjector {
 
     @Test
     public void injectorShouldInitializeClassWithoutDependencies()
-            throws Exception {
-        Object object = Injector.initialize("task.testClasses.ClassWithoutDependencies", Collections.emptyList());
+            throws Exception, InjectionCycleException {
+        Object object = Injector.initialize("ru.hse.surkov.pw07.ClassWithoutDependencies", Collections.emptyList());
         assertTrue(object instanceof ClassWithoutDependencies);
     }
 
     @Test
     public void injectorShouldInitializeClassWithOneClassDependency()
-            throws Exception {
+            throws Exception, InjectionCycleException {
         Object object = Injector.initialize(
-                "task.testClasses.ClassWithOneClassDependency",
-                Collections.singletonList("task.testClasses.ClassWithoutDependencies")
+                "ru.hse.surkov.pw07.ClassWithOneClassDependency",
+                Collections.singletonList("ru.hse.surkov.pw07.ClassWithoutDependencies")
         );
         assertTrue(object instanceof ClassWithOneClassDependency);
         ClassWithOneClassDependency instance = (ClassWithOneClassDependency) object;
@@ -30,7 +30,7 @@ public class TestInjector {
 
     @Test
     public void injectorShouldInitializeClassWithOneInterfaceDependency()
-            throws Exception {
+            throws Exception, InjectionCycleException {
         Object object = Injector.initialize(
                 "task.testClasses.ClassWithOneInterfaceDependency",
                 Collections.singletonList("task.testClasses.InterfaceImpl")

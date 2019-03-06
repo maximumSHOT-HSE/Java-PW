@@ -1,4 +1,4 @@
 package ru.hse.surkov.pw07;
 
-public class InjectionCycleException {
+public class InjectionCycleException extends Throwable {
 }
