@@ -31,20 +31,19 @@ public class Injector {
         }
         List<Object> parametrInstances = new ArrayList<>();
         for (var parameter : parameters) {
-            String needClassName = parameter.getName();
             Class<?> lastImplementationClass = null;
             for (var implementationClass : implementationClasses) {
-                if (parameter.getClass().isAssignableFrom(implementationClass)) {
+                if (parameter.getType().isAssignableFrom(implementationClass)) {
                     if (lastImplementationClass != null) {
                         throw new AmbiguousImplementationException();
                     }
-                    lastImplementationClass = parameter.getClass();
+                    lastImplementationClass = parameter.getType();
                 }
             }
             if (lastImplementationClass == null) {
                 throw new ImplementationNotFoundException();
             }
-            parametrInstances.add(Injector.initialize(lastImplementationClass.getName(), implementationClassNames));
+            parametrInstances.add(Injector.initialize(lastImplementationClass.getCanonicalName(), implementationClassNames));
         }
         classesInProgress.remove(rootClassName);
         return constructor.newInstance(parametrInstances.toArray());

@@ -32,8 +32,8 @@ public class TestInjector {
     public void injectorShouldInitializeClassWithOneInterfaceDependency()
             throws Exception, InjectionCycleException {
         Object object = Injector.initialize(
-                "task.testClasses.ClassWithOneInterfaceDependency",
-                Collections.singletonList("task.testClasses.InterfaceImpl")
+                "ru.hse.surkov.pw07.ClassWithOneInterfaceDependency",
+                Collections.singletonList("ru.hse.surkov.pw07.InterfaceImpl")
         );
         assertTrue(object instanceof ClassWithOneInterfaceDependency);
         ClassWithOneInterfaceDependency instance = (ClassWithOneInterfaceDependency) object;
