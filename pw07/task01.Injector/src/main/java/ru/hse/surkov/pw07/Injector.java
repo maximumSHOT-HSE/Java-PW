@@ -12,6 +12,10 @@ public class Injector {
     /**
      * Create and initialize object of `rootClassName` class using classes from
      * `implementationClassNames` for concrete dependencies.
+     * @throws InjectionCycleException if there is dependency cycle
+     * @throws ClassNotFoundException if class with rootClassName has not been found
+     * @throws AmbiguousImplementationException if there is more then one implementation of at least one class in dependencies
+     * @throws ImplementationNotFoundException if there is at least one dependency class without implementation
      */
     public static Object initialize(String rootClassName, List<String> implementationClassNames) throws
             Exception,
@@ -23,7 +27,7 @@ public class Injector {
         classesInProgress.add(rootClassName);
 
         Class<?> rootClass = Class.forName(rootClassName);
-        Constructor constructor = rootClass.getConstructors()[0];
+        Constructor constructor = rootClass.getConstructors()[0]; // it is guaranteed that there is exactly one constructor
         Parameter[] parameters = constructor.getParameters();
         List<Class<?>> implementationClasses = new ArrayList<>();
         for (String implementationClassName : implementationClassNames) {
