@@ -37,7 +37,7 @@ public class Injector {
                     if (lastImplementationClass != null) {
                         throw new AmbiguousImplementationException();
                     }
-                    lastImplementationClass = parameter.getType();
+                    lastImplementationClass = implementationClass;
                 }
             }
             if (lastImplementationClass == null) {
