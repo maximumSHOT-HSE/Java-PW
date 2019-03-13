@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MyListTest {
 
-    MyList<String> list;
+    private MyList<String> list;
 
     @BeforeEach
     void setUp() {
@@ -50,5 +50,22 @@ class MyListTest {
         list.clear();
 
         assertFalse(list.iterator().hasNext());
+
+        list.add("abc");
+        list.add("def");
+
+        ArrayList<String> helper = new ArrayList<>();
+
+        helper.add("abc");
+        helper.add("def");
+
+        Iterator<String> current = list.iterator();
+
+        for (var expected : helper) {
+            assertTrue(current.hasNext());
+            assertEquals(expected, current.next());
+        }
+
+        assertFalse(current.hasNext());
     }
 }
