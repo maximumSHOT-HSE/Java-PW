@@ -43,7 +43,7 @@ class MyLinkedHashMapTest {
     }
 
     @Test
-    void testBasicRemove() {
+    void testBasicRemoveAndContains() {
         for (int i = 0;i < 100; i++) {
             hashMap.put(Integer.toString(i), i);
         }
@@ -54,6 +54,8 @@ class MyLinkedHashMapTest {
         for (int i = 0;i < 50; i++) {
             if (i % 2 == 1) {
                 assertEquals(java.util.Optional.of(i), java.util.Optional.ofNullable(hashMap.get(Integer.toString(i))));
+            } else {
+                assertFalse(hashMap.containsKey(Integer.toString(i)));
             }
         }
     }
