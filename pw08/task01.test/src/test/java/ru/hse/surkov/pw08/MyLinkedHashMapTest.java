@@ -49,10 +49,12 @@ class MyLinkedHashMapTest {
         }
         for (int i = 0; i < 50; i += 2) {
             assertEquals(java.util.Optional.of(i), java.util.Optional.ofNullable(hashMap.remove(Integer.toString(i))));
-//            hashMap.remove(Integer.toString(i));
+            hashMap.remove(Integer.toString(i));
         }
         for (int i = 0;i < 50; i++) {
-            System.out.println(hashMap.get(Integer.toString(i)));
+            if (i % 2 == 1) {
+                assertEquals(java.util.Optional.of(i), java.util.Optional.ofNullable(hashMap.get(Integer.toString(i))));
+            }
         }
     }
 }
