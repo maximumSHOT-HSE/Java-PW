@@ -1,6 +1,5 @@
 package ru.hse.surkov.pw08;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,9 +56,10 @@ public class MyLinkedHashMap <K, V> extends AbstractMap<K, V> implements Map<K, 
                 updatedOrder.add(entry);
             }
         }
-        order = updatedOrder;
+        elementsNumber = 0;
+        order = new MyList<>();
         table = new MyArray<>(table.size() * 2);
-        for (var entryObject : order) {
+        for (var entryObject : updatedOrder) {
             Pair<K, V> entry = (Pair<K, V>) entryObject;
             put(entry.first, entry.second);
         }
@@ -115,15 +115,16 @@ public class MyLinkedHashMap <K, V> extends AbstractMap<K, V> implements Map<K, 
     }
 
     @Override
-    public V remove(@NotNull Object keyObject) {
+    public @Nullable V remove(@NotNull Object keyObject) {
         K key = (K) keyObject;
         Pair<K, V> entry = getEntry(key);
+        if (entry == null) {
+            return null;
+        }
         int position = getFirstValidPosition(key);
         table.remove(position);
-        if (entry != null) {
-            elementsNumber--;
-        }
-        return entry == null ? null : entry.second;
+        elementsNumber--;
+        return entry.second;
     }
 
     @Override

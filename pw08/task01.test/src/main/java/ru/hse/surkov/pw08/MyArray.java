@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class MyArray <V> {
 
-    @NotNull private Object[] array;
+    private Object[] array;
 
     public MyArray(int startCapacity) {
         array = new Object[startCapacity];
