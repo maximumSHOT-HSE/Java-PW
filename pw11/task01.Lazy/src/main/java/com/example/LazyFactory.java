@@ -4,8 +4,15 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
+/** Class for creating objects of Lazy class. */
 public class LazyFactory {
 
+    /**
+     * Creates Lazy object that correctly works in single-thread programs: always returns the same value.
+     * @param supplier the supplier for the Lazy object.
+     * @param <T> the supplier parameter.
+     * @return a correct Lazy object: ie the supplier's get will not be calculated more than once.
+     */
     public static <T> Lazy<T> createOneThreadLazy(Supplier<T> supplier) {
 
         return new Lazy<T>() {
@@ -21,6 +28,12 @@ public class LazyFactory {
         };
     }
 
+    /**
+     * Creates Lazy object that correctly works in multi-thread programs: always returns the same value.
+     * @param supplier the supplier for the Lazy object.
+     * @param <T> the supplier parameter.
+     * @return a correct Lazy object: ie the supplier's get will not be calculated more than once.
+     */
     public static <T> Lazy<T> createMultiThreadLazy(Supplier<T> supplier) {
 
         return new Lazy<T>() {
@@ -41,6 +54,12 @@ public class LazyFactory {
         };
     }
 
+    /**
+     * Creates Lazy object that is lock-free and correctly works in multi-thread programs: always returns the same value.
+     * @param supplier the supplier for the Lazy object.
+     * @param <T> the supplier parameter.
+     * @return a correct Lazy object, though the supplier's get can be calculated more than once.
+     */
     public static <T> Lazy<T> createLocklessMultiThreadLazy(Supplier<T> supplier) {
 
         return new Lazy<>() {
