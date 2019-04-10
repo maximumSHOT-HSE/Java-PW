@@ -3,7 +3,9 @@ package com.example;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.function.Supplier;
 
 /** Class for creating objects of Lazy class. */
@@ -63,24 +65,6 @@ public class LazyFactory {
      * @return a correct Lazy object, though the supplier's get can be calculated more than once.
      */
     public static <T> Lazy<T> createLocklessMultiThreadLazy(Supplier<T> supplier) {
-
-        return new Lazy<>() {
-            private AtomicReference<Optional<T>> dataReference = new AtomicReference<>();
-
-            @Override
-            public T get() {
-                Optional<T> data = dataReference.get();
-
-                if (data == null) {
-                    data = Optional.ofNullable(supplier.get());
-                    if (dataReference.compareAndSet(null, data)) {
-                        return data.orElse(null);
-                    } else {
-                        return dataReference.get().orElse(null);
-                    }
-                }
-                return data.orElse(null);
-            }
-        };
+        return new LocklessMultiThreadLazy<>(supplier);
     }
 }
