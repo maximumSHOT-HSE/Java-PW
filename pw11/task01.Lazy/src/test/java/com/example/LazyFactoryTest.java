@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LazyFactoryTest {
+public class LazyFactoryTest {
 
     @Test
     void createOneThreadLazyOneResultRandom() {

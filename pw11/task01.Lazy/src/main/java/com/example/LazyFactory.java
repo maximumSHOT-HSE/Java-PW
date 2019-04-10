@@ -1,5 +1,7 @@
 package com.example;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
@@ -9,7 +11,7 @@ public class LazyFactory {
     public static <T> Lazy<T> createOneThreadLazy(Supplier<T> supplier) {
 
         return new Lazy<T>() {
-            private Optional<T> data;
+            @Nullable private Optional<T> data;
 
             @Override
             public T get() {
@@ -25,7 +27,7 @@ public class LazyFactory {
 
         return new Lazy<T>() {
 
-            private volatile Optional<T> data;
+            @Nullable private volatile Optional<T> data;
 
             @Override
             public T get() {
@@ -45,6 +47,7 @@ public class LazyFactory {
 
         return new Lazy<>() {
             private AtomicReference<Optional<T>> dataReference = new AtomicReference<>();
+
             @Override
             public T get() {
                 Optional<T> data = dataReference.get();
