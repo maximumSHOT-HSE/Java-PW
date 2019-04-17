@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CountDownLatchTest {
     private CountDownLatch latch;
-    private final int baseCntSize = 10;
+    private final int BASE_CNT_SIZE = 10;
 
     @BeforeEach
     public void init() {
-        latch = new CountDownLatch(baseCntSize);
+        latch = new CountDownLatch(BASE_CNT_SIZE);
     }
 
     @RepeatedTest(10)
