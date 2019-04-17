@@ -50,13 +50,13 @@ class CountDownLatchTest {
     }
 
     private void actorForCountDownLock() {
-        System.out.println("Before CountDown at " + Thread.currentThread().getName());
+//        System.out.println("Before CountDown at " + Thread.currentThread().getName());
         assertDoesNotThrow(() -> latch.countDown());
-        System.out.println("CountDown at " + Thread.currentThread().getName());
+//        System.out.println("CountDown at " + Thread.currentThread().getName());
         assertDoesNotThrow(() -> Thread.sleep(200));
-        System.out.println("Slept at " + Thread.currentThread().getName());
+//        System.out.println("Slept at " + Thread.currentThread().getName());
         assertDoesNotThrow(() -> latch.countUp());
-        System.out.println("CountUp at " + Thread.currentThread().getName());
-        System.out.println("Latch count is " + latch.getCount() + " at " + Thread.currentThread().getName());
+//        System.out.println("CountUp at " + Thread.currentThread().getName());
+//        System.out.println("Latch count is " + latch.getCount() + " at " + Thread.currentThread().getName());
     }
 }
