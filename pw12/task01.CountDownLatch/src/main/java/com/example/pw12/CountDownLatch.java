@@ -65,10 +65,7 @@ public class CountDownLatch {
         }
     }
 
-    public int getCount() throws InterruptedException {
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        }
+    public int getCount() {
         return count;
     }
 }
