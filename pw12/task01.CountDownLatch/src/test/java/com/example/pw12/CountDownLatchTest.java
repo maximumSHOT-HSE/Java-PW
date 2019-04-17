@@ -2,7 +2,6 @@ package com.example.pw12;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ class CountDownLatchTest {
     public void testInit() {
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(4)
     public void testSimpleAwait() {
         Thread actor = new Thread(this::actorForSimpleAwait);
         actor.start();
@@ -32,12 +31,12 @@ class CountDownLatchTest {
     private void actorForSimpleAwait() {
         while (latch.getCount() != 0) {
             assertDoesNotThrow(() -> latch.countDown());
-            assertDoesNotThrow(() -> Thread.sleep(300));
+            assertDoesNotThrow(() -> Thread.sleep(30));
         }
     }
 
-    @RepeatedTest(10)
-    void testCountDownLock() {
+    @RepeatedTest(4)
+    public void testCountDownLock() {
         latch = new CountDownLatch(1);
         List<Thread> actors = new ArrayList<Thread>();
         for (int i = 0; i < 10; i++) {
