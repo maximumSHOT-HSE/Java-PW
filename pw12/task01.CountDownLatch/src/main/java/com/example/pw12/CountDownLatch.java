@@ -56,13 +56,19 @@ public class CountDownLatch {
         }
         lock.lock();
         try {
-
+            count++;
+            if (count == 1) {
+                isPositive.signalAll();
+            }
         } finally {
             lock.unlock();
         }
     }
 
-    public int getCount() {
+    public int getCount() throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
         return count;
     }
 }
