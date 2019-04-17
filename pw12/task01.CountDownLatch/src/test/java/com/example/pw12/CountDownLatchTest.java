@@ -24,7 +24,6 @@ class CountDownLatchTest {
         actor.start();
         latch.await();
     }
-
     private void actorForSimpleAwait() {
         while (latch.getCount() != 0) {
             latch.countDown();
