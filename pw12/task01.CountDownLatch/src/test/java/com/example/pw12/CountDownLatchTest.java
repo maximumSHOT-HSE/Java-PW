@@ -88,7 +88,7 @@ class CountDownLatchTest {
 
     private void actorForCountDownLock() {
         assertDoesNotThrow(() -> latch.countDown());
-        assertDoesNotThrow(() -> Thread.sleep(200));
+        assertDoesNotThrow(() -> Thread.sleep(100));
         assertDoesNotThrow(() -> latch.countUp());
     }
 
@@ -98,7 +98,7 @@ class CountDownLatchTest {
                 latch = new CountDownLatch(-10));
     }
 
-    @RepeatedTest(1)
+    @RepeatedTest(10)
     void testCountUpLocking() throws InterruptedException {
         latch = new CountDownLatch(0);
 
