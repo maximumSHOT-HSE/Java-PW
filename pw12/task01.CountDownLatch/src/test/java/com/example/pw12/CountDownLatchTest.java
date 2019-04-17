@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CountDownLatchTest {
     private CountDownLatch latch;
@@ -19,11 +18,11 @@ class CountDownLatchTest {
         latch = new CountDownLatch(baseCntSize);
     }
 
-    @Test
+    @RepeatedTest(10)
     public void testInit() {
     }
 
-    @Test
+    @RepeatedTest(10)
     public void testSimpleAwait() {
         Thread actor = new Thread(this::actorForSimpleAwait);
         actor.start();
@@ -37,8 +36,8 @@ class CountDownLatchTest {
         }
     }
 
-    @Test
-    public void testCountDownLock() {
+    @RepeatedTest(10)
+    void testCountDownLock() {
         latch = new CountDownLatch(1);
         List<Thread> actors = new ArrayList<Thread>();
         for (int i = 0; i < 10; i++) {
@@ -52,7 +51,6 @@ class CountDownLatchTest {
     }
 
     @RepeatedTest(10)
-    @Test
     void testBasicsOneThread() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(5);
 
@@ -68,10 +66,9 @@ class CountDownLatchTest {
     }
 
     @RepeatedTest(10)
-    @Test
     void testBasicAwait() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(10);
-        Thread threads[] = new Thread[10];
+        Thread[] threads = new Thread[10];
         for (int i = 0; i < 10; i++) {
             threads[i] = new Thread(new Runnable() {
                 @Override
@@ -90,13 +87,68 @@ class CountDownLatchTest {
     }
 
     private void actorForCountDownLock() {
-//        System.out.println("Before CountDown at " + Thread.currentThread().getName());
         assertDoesNotThrow(() -> latch.countDown());
-//        System.out.println("CountDown at " + Thread.currentThread().getName());
         assertDoesNotThrow(() -> Thread.sleep(200));
-//        System.out.println("Slept at " + Thread.currentThread().getName());
         assertDoesNotThrow(() -> latch.countUp());
-//        System.out.println("CountUp at " + Thread.currentThread().getName());
-//        System.out.println("Latch count is " + latch.getCount() + " at " + Thread.currentThread().getName());
+    }
+
+    @RepeatedTest(10)
+    void testNegativeConstructorArgument() {
+        assertThrows(IllegalArgumentException.class, () ->
+                latch = new CountDownLatch(-10));
+    }
+
+    @RepeatedTest(1)
+    void testCountUpLocking() throws InterruptedException {
+        latch = new CountDownLatch(0);
+
+        Thread[] threads = new Thread[10];
+
+        for (int i = 0; i < 10; i++) {
+            threads[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        latch.countDown();
+                    } catch (InterruptedException e) {
+                        fail();
+                    }
+                }
+            });
+            threads[i].start();
+        }
+
+        Thread incrementer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        fail();
+                    }
+                    int ok = 1;
+                    for (int i = 0; i < 10; i++) {
+                        if (!threads[i].getState().equals(Thread.State.WAITING)) {
+                            System.out.println("found = " + threads[i].getState());
+                            ok = 0;
+                            break;
+                        }
+                    }
+                    if (ok == 1) {
+                        break;
+                    }
+                }
+                for (int i = 0; i < 10; i++) {
+                    assertDoesNotThrow(() -> latch.countUp());
+                }
+            }
+        });
+
+        incrementer.start();
+
+        for (int i = 0; i < 10; i++) {
+            threads[i].join();
+        }
     }
 }

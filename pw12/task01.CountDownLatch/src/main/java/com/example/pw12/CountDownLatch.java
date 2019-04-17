@@ -13,7 +13,10 @@ public class CountDownLatch {
 
     public CountDownLatch(int count) {
         if (count < 0) {
-            throw new IllegalArgumentException("count should be a non-negative value, but found count = " + count);
+            throw new IllegalArgumentException(
+                    "count should be a non-negative value, but found count = " +
+                            count
+            );
         }
         this.count = count;
     }
