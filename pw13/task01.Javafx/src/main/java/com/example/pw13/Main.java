@@ -3,7 +3,9 @@ package com.example.pw13;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
@@ -43,6 +45,28 @@ public class Main extends Application {
                 matrix[i][j] = CellState.EMPTY;
             }
         }
+    }
+
+    /**
+     * Method for testing.
+     * Tries to change cell state and in case of success returns true.
+     * Otherwise does nothing and returns false
+     *
+     * @throws IllegalArgumentException
+     * */
+    public boolean setCellState(int i, int j, CellState state) {
+        if (!state.equals(currentTurn)) {
+            throw new IllegalArgumentException("Invalid state");
+        }
+        if (i < 0 || i >= SIZE || j < 0 || j >= SIZE) {
+            throw new IllegalArgumentException("Coordinates out of bounds (" + i + ", " + j + ")");
+        }
+        if (!matrix[i][j].equals(CellState.EMPTY)) {
+            return false;
+        }
+        matrix[i][j] = state;
+        currentTurn = getOppositeCellState(currentTurn);
+        return true;
     }
 
     private void process(int row, int coloumn, Button button) {
@@ -112,8 +136,17 @@ public class Main extends Application {
         var pane = new GridPane();
 
         for (int i = 0; i < SIZE; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setFillHeight(true);
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setFillHeight(true);
+            rowConstraints.setVgrow(Priority.ALWAYS);
+            pane.getRowConstraints().add(rowConstraints);
+        }
+
+        for (int j = 0; j < SIZE; j++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setFillWidth(true);
+            columnConstraints.setHgrow(Priority.ALWAYS);
+            pane.getColumnConstraints().add(columnConstraints);
         }
 
         for (int i = 0; i < SIZE; i++) {
@@ -129,7 +162,7 @@ public class Main extends Application {
             }
         }
 
-        Scene scene = new Scene(pane, 200, 200);
+        Scene scene = new Scene(pane, 800, 800);
 
         primaryStage.setScene(scene);
         primaryStage.show();
