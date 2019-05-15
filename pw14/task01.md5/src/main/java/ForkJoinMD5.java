@@ -36,7 +36,8 @@ public class ForkJoinMD5 {
      * @param fileName is the name of file
      * which hash needs to be calculated.
      * @throws IllegalArgumentException when there is no
-     * such file with given name  */
+     * such file with given name
+     * */
     public @NotNull byte[] calculateMD5(@NotNull String fileName) {
         File file = new File(fileName);
         if (!file.exists()) {

@@ -21,14 +21,14 @@ public class Main {
      * calculates md5 check sum of file, which is
      * available by this path using both
      * single and multi thread modes, then
-     * prints the check sums an time which
+     * prints the check sums and time which
      * has been used for calculating.
      * */
     public static void main(String[] args) throws
             NoSuchAlgorithmException {
         if (args.length < 1) {
             System.out.println("Invalid program arguments");
-            System.out.println("usage: ./main <path>");
+            System.out.println("usage: main <path>");
             System.exit(-1);
         }
 

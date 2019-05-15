@@ -17,10 +17,6 @@ public class SingleThreadMD5 {
 
     private static final int BLOCK_SIZE = 4096;
 
-    public static int getBlockSize() {
-        return BLOCK_SIZE;
-    }
-
     private @NotNull byte[] calculateFileHash(@NotNull File file) throws
             NoSuchAlgorithmException,
             IOException {
