@@ -39,7 +39,7 @@ public class ForkJoinMD5 {
      * such file with given name
      * */
     public @NotNull byte[] calculateMD5(@NotNull String fileName) {
-        File file = new File(fileName);
+        var file = new File(fileName);
         if (!file.exists()) {
             throw new IllegalArgumentException("File with name : "
                     + fileName + " does not exists");
@@ -58,7 +58,7 @@ public class ForkJoinMD5 {
         @Override
         protected byte[] compute() {
             if (file.isFile()) {
-                SingleThreadMD5 singleThreadMD5 = new SingleThreadMD5();
+                var singleThreadMD5 = new SingleThreadMD5();
                 try {
                     return singleThreadMD5.calculateMD5(file.getAbsolutePath());
                 } catch (NoSuchAlgorithmException | IOException ignored) {
@@ -81,7 +81,7 @@ public class ForkJoinMD5 {
             }
             messageDigest.update(file.getName().getBytes());
             List<MD5Calculator> subTasks = new ArrayList<>();
-            File[] childFiles = SingleThreadMD5.getSortedChildFiles(file);
+            var childFiles = SingleThreadMD5.getSortedChildFiles(file);
             for (var child : childFiles) {
                 MD5Calculator task = new MD5Calculator(child);
                 task.fork();

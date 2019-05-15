@@ -20,8 +20,8 @@ public class SingleThreadMD5 {
     private @NotNull byte[] calculateFileHash(@NotNull File file) throws
             NoSuchAlgorithmException,
             IOException {
-        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-        DigestInputStream digestInputStream = new DigestInputStream(
+        var messageDigest = MessageDigest.getInstance("MD5");
+        var digestInputStream = new DigestInputStream(
                 new FileInputStream(file), messageDigest);
         byte[] buffer = new byte[BLOCK_SIZE];
         while (digestInputStream.read(buffer, 0, BLOCK_SIZE) > 0) {
@@ -39,7 +39,7 @@ public class SingleThreadMD5 {
      * @return an array of child files sorted by absolute paths
      * */
     @NotNull public static File[] getSortedChildFiles(@NotNull File file) {
-        File[] childFiles = file.listFiles();
+        var childFiles = file.listFiles();
         if (childFiles == null) {
             return new File[0];
         }
@@ -54,9 +54,9 @@ public class SingleThreadMD5 {
             return calculateFileHash(file);
         }
         // is directory
-        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        var messageDigest = MessageDigest.getInstance("MD5");
         messageDigest.update(file.getName().getBytes());
-        File[] childFiles = getSortedChildFiles(file);
+        var childFiles = getSortedChildFiles(file);
         for (var child : childFiles) {
             var childHash = calculateHash(child);
             messageDigest.update(childHash);
@@ -82,7 +82,7 @@ public class SingleThreadMD5 {
     public @NotNull byte[] calculateMD5(@NotNull String fileName) throws
             NoSuchAlgorithmException,
             IOException {
-        File file = new File(fileName);
+        var file = new File(fileName);
         if (!file.exists()) {
             throw new IllegalArgumentException("File with name : "
                     + fileName + " does not exists");

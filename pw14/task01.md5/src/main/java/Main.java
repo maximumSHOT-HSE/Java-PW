@@ -7,7 +7,7 @@ public class Main {
     private final static char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
 
     private static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
+        var hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xff;
             hexChars[j * 2] = HEX_DIGITS[v >>> 4];
