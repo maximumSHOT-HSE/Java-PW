@@ -1,7 +1,9 @@
+
 language: java
 jdk: oraclejdk11
+services: mongodb
 os:
 - linux
-env:
-- PROJECT_DIR=pw08/task01.test
-script: cd $PROJECT_DIR && ./gradlew check
+script: "bash check_script.sh"
+notifications:
+    email: false
