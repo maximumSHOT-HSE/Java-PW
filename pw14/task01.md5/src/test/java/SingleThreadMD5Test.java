@@ -129,7 +129,7 @@ class SingleThreadMD5Test {
 
     @Test
     void testLargeFile() throws NoSuchAlgorithmException, IOException {
-        String s = "eklrjghbgjrelgbregberjlgrelkgreklgrhebgrelbgerlgrgn[we[oqr8023[8jrn33[  823jr [r[2  3 rjionf[   98 2 98 49oij3498t t3498 t43 89th3t";
+        var s = "eklrjghbgjrelgbregberjlgrelkgreklgrhebgrelbgerlgrgn[we[oqr8023[8jrn33[  823jr [r[2  3 rjionf[   98 2 98 49oij3498t t3498 t43 89th3t";
         int numberOfBlock = 2048;
         var messageDigest = MessageDigest.getInstance("MD5");
         for (int i = 0; i < numberOfBlock; i++) {
