@@ -7,7 +7,9 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Client {
 
@@ -72,5 +74,34 @@ public class Client {
     public byte[] executeGet(@NotNull String path) throws IOException {
         sendGetRequest(path);
         return receiveGetRequest();
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter port: ");
+
+        int port = scanner.nextInt();
+
+        Client client = new Client();
+        client.connect(port);
+
+        while (true) {
+            int type = scanner.nextInt();
+            String path = scanner.nextLine();
+
+            if (type == 1) {
+                var list = client.executeList(path);
+                System.out.println("List: size = " + list.size());
+                for (var serverFile : list) {
+                    System.out.println(serverFile.getName() + " | " + (serverFile.isDirectory() ? "d" : "f"));
+                }
+            } else {
+                var file = client.executeGet(path);
+                System.out.println("Get: size = " + file.length);
+                System.out.println(Arrays.toString(file));
+            }
+        }
+
     }
 }

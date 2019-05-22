@@ -11,4 +11,12 @@ public class ServerFile {
         this.name = name;
         this.isDirectory = isDirectory;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isDirectory() {
+        return isDirectory;
+    }
 }

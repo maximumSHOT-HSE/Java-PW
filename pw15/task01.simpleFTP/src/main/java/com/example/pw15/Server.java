@@ -81,7 +81,7 @@ public class Server implements Closeable, Runnable {
                 if (key.isValid()) {
                     if (key.isAcceptable()) {
                         accept(serverSocketChannel, key);
-                    } else if (key.isAcceptable()) {
+                    } else if (key.isReadable()) {
                         read(key);
                     }
                     else {
@@ -92,7 +92,6 @@ public class Server implements Closeable, Runnable {
                 }
             } finally {
             }
-
             iterator.remove();
         }
     }
@@ -103,7 +102,7 @@ public class Server implements Closeable, Runnable {
     }
 
     private void accept(ServerSocketChannel channel, SelectionKey key) {
-        SocketChannel client = null;
+        SocketChannel client;
         try {
             client = channel.accept();
             client.configureBlocking(false);
@@ -111,6 +110,5 @@ public class Server implements Closeable, Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
