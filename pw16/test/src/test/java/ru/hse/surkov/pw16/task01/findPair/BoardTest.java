@@ -64,11 +64,6 @@ class BoardTest {
                 assertEquals(0, board.getCatchedCellsNumber());
             }
         }
-        for (int x = 1; x <= maxValue; x++) {
-            board.makeTurn(firstPosition[x].getFirst(), firstPosition[x].getSecond());
-            board.makeTurn(secondPosition[x].getFirst(), secondPosition[x].getSecond());
-            assertEquals(2 * x, board.getCatchedCellsNumber());
-        }
     }
 
     @Test
