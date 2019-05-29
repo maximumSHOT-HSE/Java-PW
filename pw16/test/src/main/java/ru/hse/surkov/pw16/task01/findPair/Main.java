@@ -38,16 +38,11 @@ public class Main extends Application {
     volatile private Board board;
     private Button[][] buttons;
     private Timeline timeline;
+    private Stage mainStage;
 
     public static void main(String[] args) {
         Application.launch(args);
     }
-
-    private void createBoard() {
-        board = new Board(boardSize);
-    }
-
-    private Stage mainStage;
 
     private void createUI(Stage primaryStage) {
         mainStage = primaryStage;

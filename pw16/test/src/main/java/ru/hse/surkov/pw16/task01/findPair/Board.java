@@ -5,12 +5,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Storage/Engine for game board
+ * with ability to make turn, get information
+ * about the game state and updating game states.
+ * */
 public class Board {
 
     private static final long BUTTON_LIFE_TIME = 1_500;
     private int seed = 42;
     private Random random = new Random(seed);
 
+    /**
+     * State of cell
+     * */
     public enum CellState {
         NOT_TOUCHED,
         TOUCHED,
@@ -62,6 +70,11 @@ public class Board {
         return size;
     }
 
+    /**
+     * Checks correctness of the turn,
+     * so player is not able to touch buttons too often.
+     * Method does not check correctness of coordinates.
+     * */
     public void makeTurn(int i, int j) {
         if (touchesStack.size() > 1 + getCatchedCellsNumber()) {
             return;
@@ -98,6 +111,10 @@ public class Board {
         return System.currentTimeMillis() - cells[i][j].getLastTouchedCellRow() <= BUTTON_LIFE_TIME;
     }
 
+    /**
+     * Removes from touch buttons stacks such buttons,
+     * that was touched too long ago.
+     * */
     public void unTouch() {
         while (!touchesStack.isEmpty()) {
             int lastTouchedCellRow = touchesStack.get(touchesStack.size() - 1).getFirst();
