@@ -1,7 +1,9 @@
 package ru.hse.surkov.pw16.task01.findPair;
 
-import javax.management.RuntimeOperationsException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class Board {
 
@@ -92,10 +94,6 @@ public class Board {
         return cells[i][j].getValue();
     }
 
-    public void setSeed(int seed) {
-        this.seed = seed;
-    }
-
     public boolean isAlive(int i, int j) {
         return System.currentTimeMillis() - cells[i][j].getLastTouchedCellRow() <= BUTTON_LIFE_TIME;
     }
@@ -147,32 +145,6 @@ public class Board {
 
         public void setValue(int value) {
             this.value = value;
-        }
-    }
-
-    private class Pair {
-        private int first;
-        private int second;
-
-        public Pair(int first, int second) {
-            this.first = first;
-            this.second = second;
-        }
-
-        public int getFirst() {
-            return first;
-        }
-
-        public void setFirst(int first) {
-            this.first = first;
-        }
-
-        public int getSecond() {
-            return second;
-        }
-
-        public void setSecond(int second) {
-            this.second = second;
         }
     }
 }
