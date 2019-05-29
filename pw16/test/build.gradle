@@ -10,7 +10,7 @@ javafx {
     modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'ru.hse.surkov.pw16.Main'
+mainClassName = 'ru.hse.surkov.pw16.task01.findPair.Main'
 
 group 'com.example'
 version '1.0-SNAPSHOT'
